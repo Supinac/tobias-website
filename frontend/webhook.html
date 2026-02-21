@@ -3,14 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reference page</title>
+    <title>Contact Me</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-<p>Comming soon</p>
-<p>return to <a href="index.html">Homepage</a> or <a href="reference.html">Reference page</a>.</p>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="webhook.html">Contact</a>
+    </nav>
+    
+    <section>
+        <h1>Contact Me</h1>
+        <form id="contact-form">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            
+            <label for="contact">Contact me back on:</label><br>
+            <input type="text" id="contact" name="contact" placeholder="Email, Discord, etc." required><br><br>
+            
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="5" required></textarea><br><br>
+            
+            <button type="submit">Send Message</button>
+        </form>
+        
+        <div id="form-status"></div>
+    </section>
+    
+    <script src="script.js"></script>
 </body>
-</html> 
+</html>
