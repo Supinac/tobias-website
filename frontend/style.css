@@ -11,8 +11,9 @@ body {
     font-family: 'Lora', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     line-height: 1.6;
     text-align: left;
+    font-size: large;
 }
-#home, #about, #projects, #contact {
+#home, #about, #projects, #contact, #intrests {
     margin: 1rem;
 }
 #home {
@@ -36,6 +37,10 @@ nav a:hover {
 }
 h1 {
     margin-bottom: 1rem;
+}
+ul {
+    list-style-position: inside;
+    list-style-type:square;
 }
 footer {
     text-align: center;
