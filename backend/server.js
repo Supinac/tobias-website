@@ -1,23 +1,17 @@
-// Import the Express framework for building web servers
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-// Create an Express application
 const app = express();
 const PORT = 3000;
 
-// Add your Discord webhook URL here
 const DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/1474913365259456663/npoMe40RBux_XQOY5Inofdhkqd5_6AbreyV0iLs4urQjaKr82LtEleKGOe2f_U3s4gsD';
 
-// File to store the visit count
 const COUNTER_FILE = path.join(__dirname, 'visit-count.txt');
 
-// Middleware to parse JSON bodies (needed for POST requests)
 app.use(express.json());
 
-// Enable CORS so your website can call this API
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST');
@@ -25,10 +19,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Function to read the current count from file
 function getCount() {
     try {
-        // If the file exists, read it and parse the number
         if (fs.existsSync(COUNTER_FILE)) {
             const data = fs.readFileSync(COUNTER_FILE, 'utf8');
             return parseInt(data) || 0;
@@ -40,7 +32,6 @@ function getCount() {
     }
 }
 
-// Function to save the count to file
 function saveCount(count) {
     try {
         fs.writeFileSync(COUNTER_FILE, count.toString());
@@ -49,7 +40,6 @@ function saveCount(count) {
     }
 }
 
-// Function to parse User-Agent for OS information
 function parseUserAgent(userAgent) {
     if (userAgent.includes('Windows')) return 'Windows';
     if (userAgent.includes('Mac OS')) return 'macOS';
@@ -59,29 +49,20 @@ function parseUserAgent(userAgent) {
     return 'Unknown OS';
 }
 
-// API endpoint to get and increment the visit count
 app.get('/api/visit', (req, res) => {
-    // Get current count, increment it, and save
     let count = getCount();
     count++;
     saveCount(count);
-    
-    // Return the new count as JSON
     res.json({ visits: count });
 });
 
-// Contact form endpoint
 app.post('/api/contact', async (req, res) => {
     try {
         const { name, contact, message } = req.body;
-        
-        // Get visitor's IP
         const ip = req.headers['x-forwarded-for'] || 
                    req.headers['x-real-ip'] || 
                    req.connection.remoteAddress || 
                    'Unknown';
-        
-        // Get OS from User-Agent
         const userAgent = req.headers['user-agent'] || 'Unknown';
         const os = parseUserAgent(userAgent);
         
@@ -92,36 +73,36 @@ app.post('/api/contact', async (req, res) => {
         // Send to Discord
         const discordMessage = {
             embeds: [{
-                title: '📬 New Contact Form Submission',
+                title: 'Contact web from webhook',
                 color: 0x00ff00,
                 fields: [
                     {
-                        name: '👤 Name',
+                        name: 'Name',
                         value: name,
                         inline: false
                     },
                     {
-                        name: '📞 Contact me back on',
+                        name: 'Contact me back on',
                         value: contact,
                         inline: false
                     },
                     {
-                        name: '💬 Message',
+                        name: 'Message',
                         value: message.length > 1024 ? message.substring(0, 1021) + '...' : message,
                         inline: false
                     },
                     {
-                        name: '🌐 IP Address',
+                        name: 'IP Address',
                         value: ip,
                         inline: true
                     },
                     {
-                        name: '💻 Operating System',
+                        name: 'Operating System',
                         value: os,
                         inline: true
                     },
                     {
-                        name: '🕐 Timestamp',
+                        name: 'Timestamp',
                         value: timestamp,
                         inline: false
                     }
