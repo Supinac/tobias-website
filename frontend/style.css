@@ -19,6 +19,9 @@ body {
 #home {
     margin-top: 5rem;
 }
+section {
+    scroll-margin-top: 5rem;
+}
 nav {
     background-color: #333;
     padding: 1rem;
