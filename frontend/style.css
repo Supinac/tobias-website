@@ -13,7 +13,7 @@ body {
     text-align: left;
     font-size: large;
 }
-#home, #about, #projects, #contact, #intrests {
+#home, #about, #projects, #contact, #intrests, #pictures {
     margin: 1rem;
 }
 #home {
