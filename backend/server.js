@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -6,7 +7,7 @@ const axios = require('axios');
 const app = express();
 const PORT = 3000;
 
-const DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/1474913365259456663/npoMe40RBux_XQOY5Inofdhkqd5_6AbreyV0iLs4urQjaKr82LtEleKGOe2f_U3s4gsD';
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
 const COUNTER_FILE = path.join(__dirname, 'visit-count.txt');
 

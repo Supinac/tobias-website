@@ -1,3 +1,4 @@
 visit-count.txt
 node_modules/
 *.log
+.env
