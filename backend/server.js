@@ -85,7 +85,8 @@ app.get('/api/visit', async (req, res) => {
                     fields: [
                         { name: 'Visit #', value: count.toString(), inline: true },
                         { name: 'IP', value: ip, inline: true },
-                        { name: 'OS', value: os, inline: true }
+                        { name: 'OS', value: os, inline: true },
+                        { name: 'Timestamp', value: new Date().toISOString(), inline: false }
                     ],
                     footer: { text: 'Website Visit Notification' }
                 }]
