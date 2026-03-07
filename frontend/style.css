@@ -16,6 +16,9 @@ body {
 #home, #about, #projects, #contact, #intrests, #pictures {
     margin: 1rem;
 }
+.left {
+    margin-left: auto;
+}
 #home {
     margin-top: 5rem;
 }
@@ -29,11 +32,14 @@ nav {
     top: 0;
     width: 100%;
     z-index: 1000;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 nav a {
     color: white;
     text-decoration: none;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
 }
 nav a:hover {
     color: #0081fa;
