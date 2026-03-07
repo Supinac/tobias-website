@@ -11,7 +11,7 @@ const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
 const COUNTER_FILE = path.join(__dirname, 'visit-count.txt');
 
-// Track visitors - only notify once per IP per hour
+// Track visitors - only count and notify once per IP per hour
 const recentVisitors = new Map();
 const VISITOR_COOLDOWN = 60 * 60 * 1000; // 1 hour in ms
 
@@ -65,10 +65,6 @@ function parseUserAgent(userAgent) {
 }
 
 app.get('/api/visit', async (req, res) => {
-    let count = getCount();
-    count++;
-    saveCount(count);
-
     const ip = req.headers['x-forwarded-for'] || 
                req.headers['x-real-ip'] || 
                req.connection.remoteAddress || 
@@ -76,23 +72,30 @@ app.get('/api/visit', async (req, res) => {
     const userAgent = req.headers['user-agent'] || 'Unknown';
     const os = parseUserAgent(userAgent);
 
-    if (isNewVisitor(ip) && DISCORD_WEBHOOK_URL) {
-        try {
-            await axios.post(DISCORD_WEBHOOK_URL, {
-                embeds: [{
-                    title: 'New Visitor',
-                    color: 0x3498db,
-                    fields: [
-                        { name: 'Visit #', value: count.toString(), inline: true },
-                        { name: 'IP', value: ip, inline: true },
-                        { name: 'OS', value: os, inline: true },
-                        { name: 'Timestamp', value: new Date().toISOString(), inline: false }
-                    ],
-                    footer: { text: 'Website Visit Notification' }
-                }]
-            });
-        } catch (err) {
-            console.error('Discord visit notification failed:', err.message);
+    let count = getCount();
+
+    if (isNewVisitor(ip)) {
+        count++;
+        saveCount(count);
+
+        if (DISCORD_WEBHOOK_URL) {
+            try {
+                await axios.post(DISCORD_WEBHOOK_URL, {
+                    embeds: [{
+                        title: 'New Visitor',
+                        color: 0x3498db,
+                        fields: [
+                            { name: 'Visit #', value: count.toString(), inline: true },
+                            { name: 'IP', value: ip, inline: true },
+                            { name: 'OS', value: os, inline: true },
+                            { name: 'Timestamp', value: new Date().toISOString(), inline: false }
+                        ],
+                        footer: { text: 'Website Visit Notification' }
+                    }]
+                });
+            } catch (err) {
+                console.error('Discord visit notification failed:', err.message);
+            }
         }
     }
 
