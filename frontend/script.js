@@ -1,11 +1,30 @@
 async function updateVisitCounter() {
     try {
+        const counterElement = document.getElementById('visit-counter');
+        if (counterElement) {
+            // Show loading animation with dots
+            counterElement.textContent = 'Loading';
+            counterElement.classList.add('loading');
+        }
+        
         const response = await fetch('/api/visit');
         const data = await response.json();
 
-        const counterElement = document.getElementById('visit-counter');
         if (counterElement) {
-            counterElement.textContent = `Total visits: ${data.visits}`;
+            // Remove loading animation
+            counterElement.classList.remove('loading');
+            
+            // Add transition for smooth animation
+            counterElement.style.transition = 'transform 0.3s ease-in-out';
+            
+            // Scale down
+            counterElement.style.transform = 'scale(0.95)';
+            
+            // Update text and scale back up
+            setTimeout(() => {
+                counterElement.textContent = `Total visits: ${data.visits}`;
+                counterElement.style.transform = 'scale(1)';
+            }, 150);
         }
     } catch (error) {
         console.error('Failed to fetch visit count:', error);

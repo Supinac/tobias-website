@@ -58,6 +58,16 @@ footer {
     color: white;
     text-shadow: #0059ff 0px 0px 3px;
 }
+/* Loading dots animation */
+@keyframes dots {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+    100% { content: '.'; }
+}
+#visit-counter.loading::after {
+    animation: dots 1.5s infinite;
+}
 /*----------------------ham.html------------------------*/
 #meishodotoham {
     width: 100%;

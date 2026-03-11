@@ -77,26 +77,6 @@ app.get('/api/visit', async (req, res) => {
     if (isNewVisitor(ip)) {
         count++;
         saveCount(count);
-
-        if (DISCORD_WEBHOOK_URL) {
-            try {
-                await axios.post(DISCORD_WEBHOOK_URL, {
-                    embeds: [{
-                        title: 'New Visitor',
-                        color: 0x3498db,
-                        fields: [
-                            { name: 'Visit #', value: count.toString(), inline: true },
-                            { name: 'IP', value: ip, inline: true },
-                            { name: 'OS', value: os, inline: true },
-                            { name: 'Timestamp', value: new Date().toISOString(), inline: false }
-                        ],
-                        footer: { text: 'Website Visit Notification' }
-                    }]
-                });
-            } catch (err) {
-                console.error('Discord visit notification failed:', err.message);
-            }
-        }
     }
 
     res.json({ visits: count });
