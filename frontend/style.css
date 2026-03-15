@@ -72,7 +72,7 @@ a {
     transition: color 0.3s ease;
 }
 a:hover {
-    color: #52bfe8;
+    color: #f00d0d;
 }
 footer {
     text-align: center;
