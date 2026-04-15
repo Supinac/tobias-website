@@ -17,4 +17,11 @@
 }
 .navbar a:hover {
   color: aqua;
+  text-decoration: underline;;
+}
+#uvod {
+  padding: 2rem;
+}
+#kategorie {
+  padding: 2rem;
 }
