@@ -1,0 +1,881 @@
+/* ============================================================
+   1. CSS PROMĚNNÉ
+   ============================================================ */
+:root {
+  --barva-hlavni: #2b5d3a;
+  --barva-hlavni-tmavsi: #1e4229;
+  --barva-akcent: #d4a017;
+  --barva-akcent-svetlejsi: #e8b82a;
+  --barva-pozadi: #f5f5f0;
+  --barva-karty: #ffffff;
+  --barva-text: #1a1a1a;
+  --barva-text-svetly: #555555;
+  --barva-border: #d0d0c8;
+  --barva-thead: #2b5d3a;
+  --barva-zebra: #edf2ee;
+  --font-hlavni: 'Segoe UI', Arial, sans-serif;
+  --font-nadpis: Georgia, 'Times New Roman', serif;
+  --mezera-xs: 0.25rem;
+  --mezera-s: 0.5rem;
+  --mezera-m: 1rem;
+  --mezera-l: 1.5rem;
+  --mezera-xl: 2rem;
+  --mezera-xxl: 3rem;
+  --border-radius: 6px;
+  --border-radius-velky: 12px;
+  --stin: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --stin-hover: 0 6px 20px rgba(43, 93, 58, 0.25);
+  --prechod: all 0.3s ease;
+  --max-sirka: 1100px;
+}
+
+/* ============================================================
+   2. DARK MODE
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --barva-hlavni: #3d7a50;
+    --barva-hlavni-tmavsi: #2b5d3a;
+    --barva-akcent: #e8b82a;
+    --barva-akcent-svetlejsi: #f5cc55;
+    --barva-pozadi: #1a1a1a;
+    --barva-karty: #2a2a2a;
+    --barva-text: #e8e8e8;
+    --barva-text-svetly: #aaaaaa;
+    --barva-border: #444444;
+    --barva-thead: #2b5d3a;
+    --barva-zebra: #252525;
+    --stin: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --stin-hover: 0 6px 20px rgba(61, 122, 80, 0.35);
+  }
+}
+
+/* ============================================================
+   3. RESET
+   ============================================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-hlavni);
+  background-color: var(--barva-pozadi);
+  color: var(--barva-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   4. TYPOGRAFIE
+   ============================================================ */
+h1, h2, h3, h4 {
+  font-family: var(--font-nadpis);
+  line-height: 1.3;
+  color: var(--barva-text);
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.6rem; margin-bottom: var(--mezera-m); }
+h3 { font-size: 1.25rem; margin-bottom: var(--mezera-s); }
+
+p {
+  margin-bottom: var(--mezera-m);
+  color: var(--barva-text);
+}
+
+a {
+  color: var(--barva-hlavni);
+  text-decoration: underline;
+  transition: var(--prechod);
+}
+
+a:hover {
+  color: var(--barva-akcent);
+}
+
+a:focus {
+  outline: 3px solid var(--barva-akcent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+blockquote {
+  border-left: 4px solid var(--barva-akcent);
+  padding: var(--mezera-m) var(--mezera-l);
+  margin: var(--mezera-l) 0;
+  background-color: var(--barva-karty);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  font-style: italic;
+  color: var(--barva-text-svetly);
+  box-shadow: var(--stin);
+}
+
+blockquote cite {
+  display: block;
+  margin-top: var(--mezera-s);
+  font-style: normal;
+  font-size: 0.875rem;
+  color: var(--barva-hlavni);
+}
+
+/* ============================================================
+   5. LAYOUT
+   ============================================================ */
+main {
+  max-width: var(--max-sirka);
+  margin: 0 auto;
+  padding: var(--mezera-xl) var(--mezera-m);
+}
+
+section {
+  margin-bottom: var(--mezera-xxl);
+}
+
+/* ============================================================
+   6. HEADER & NAVIGACE
+   ============================================================ */
+header {
+  background-color: var(--barva-hlavni);
+  color: #ffffff;
+  padding: 0 var(--mezera-l);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--stin);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--mezera-s);
+  min-height: 64px;
+}
+
+header h1 {
+  color: #ffffff;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: var(--mezera-s);
+}
+
+header h1 svg {
+  flex-shrink: 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mezera-xs);
+}
+
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: var(--mezera-s) var(--mezera-m);
+  border-radius: var(--border-radius);
+  transition: var(--prechod);
+  display: block;
+  font-size: 0.95rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+nav ul li a:hover {
+  background-color: var(--barva-hlavni-tmavsi);
+  color: var(--barva-akcent);
+}
+
+nav ul li a:focus {
+  outline: 3px solid var(--barva-akcent);
+  outline-offset: -3px;
+}
+
+nav ul li:first-of-type a {
+  font-weight: bold;
+}
+
+/* ============================================================
+   7. KARTY
+   ============================================================ */
+.mrizka-karet {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--mezera-l);
+  margin-top: var(--mezera-l);
+}
+
+article.karta {
+  background-color: var(--barva-karty);
+  border-radius: var(--border-radius-velky);
+  box-shadow: var(--stin);
+  overflow: hidden;
+  position: relative;
+  transition: var(--prechod);
+  display: flex;
+  flex-direction: column;
+}
+
+article.karta:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--stin-hover);
+}
+
+.karta-obsah {
+  padding: var(--mezera-l);
+  flex: 1;
+}
+
+.karta-obsah h3 {
+  color: var(--barva-hlavni);
+  margin-bottom: var(--mezera-s);
+}
+
+.karta figure {
+  margin: 0;
+  overflow: hidden;
+  max-height: 200px;
+}
+
+.karta figure img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: var(--prechod);
+}
+
+.karta:hover figure img {
+  transform: scale(1.04);
+}
+
+.karta-stitek {
+  position: absolute;
+  top: var(--mezera-m);
+  right: var(--mezera-m);
+  background-color: var(--barva-akcent);
+  color: #1a1a1a;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: var(--mezera-xs) var(--mezera-s);
+  border-radius: var(--border-radius);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   8. HERO SEKCE
+   ============================================================ */
+.hero {
+  background-color: var(--barva-hlavni);
+  color: #ffffff;
+  padding: var(--mezera-xxl) var(--mezera-l);
+  text-align: center;
+  position: relative;
+}
+
+.hero h2 {
+  color: #ffffff;
+  font-size: 2.2rem;
+  margin-bottom: var(--mezera-m);
+}
+
+.hero p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto var(--mezera-l);
+}
+
+.tlacitko {
+  display: inline-block;
+  background-color: var(--barva-akcent);
+  color: #1a1a1a;
+  padding: var(--mezera-m) var(--mezera-xl);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: bold;
+  transition: var(--prechod);
+  min-height: 44px;
+  line-height: 1.4;
+}
+
+.tlacitko:hover {
+  background-color: var(--barva-akcent-svetlejsi);
+  color: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: var(--stin-hover);
+}
+
+/* ============================================================
+   9. OBSAH STRÁNKY (kotvy)
+   ============================================================ */
+.obsah-stranky {
+  background-color: var(--barva-karty);
+  border-radius: var(--border-radius-velky);
+  padding: var(--mezera-l);
+  margin-bottom: var(--mezera-xl);
+  box-shadow: var(--stin);
+}
+
+.obsah-stranky h2 {
+  font-size: 1.1rem;
+  margin-bottom: var(--mezera-m);
+  color: var(--barva-hlavni);
+}
+
+.obsah-stranky ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mezera-s);
+}
+
+.obsah-stranky ul li a {
+  display: inline-block;
+  padding: var(--mezera-xs) var(--mezera-m);
+  background-color: var(--barva-pozadi);
+  border: 1px solid var(--barva-border);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: var(--barva-hlavni);
+  font-size: 0.9rem;
+  transition: var(--prechod);
+}
+
+.obsah-stranky ul li a:hover {
+  background-color: var(--barva-hlavni);
+  color: #ffffff;
+  border-color: var(--barva-hlavni);
+}
+
+/* ============================================================
+   10. OBRÁZKY A FIGURE
+   ============================================================ */
+figure {
+  margin: var(--mezera-l) 0;
+  border-radius: var(--border-radius-velky);
+  overflow: hidden;
+  box-shadow: var(--stin);
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+figcaption {
+  background-color: var(--barva-karty);
+  padding: var(--mezera-s) var(--mezera-m);
+  font-size: 0.875rem;
+  color: var(--barva-text-svetly);
+  font-style: italic;
+  text-align: center;
+}
+
+/* ============================================================
+   11. ASIDE
+   ============================================================ */
+aside.upozorneni {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-left: 4px solid #ffc107;
+  border-radius: var(--border-radius);
+  padding: var(--mezera-m) var(--mezera-l);
+  margin: var(--mezera-l) 0;
+}
+
+aside.upozorneni h3 {
+  color: #856404;
+  margin-bottom: var(--mezera-s);
+}
+
+aside.upozorneni p {
+  color: #533f03;
+  margin-bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  aside.upozorneni {
+    background-color: #332b00;
+    border-color: #ffc107;
+  }
+  aside.upozorneni h3 { color: #ffc107; }
+  aside.upozorneni p { color: #e8d48b; }
+}
+
+aside.kontakty {
+  background-color: var(--barva-karty);
+  border-radius: var(--border-radius-velky);
+  padding: var(--mezera-l);
+  box-shadow: var(--stin);
+  min-width: 240px;
+}
+
+aside.kontakty h3 {
+  color: var(--barva-hlavni);
+  border-bottom: 2px solid var(--barva-akcent);
+  padding-bottom: var(--mezera-s);
+  margin-bottom: var(--mezera-m);
+}
+
+aside.kontakty p {
+  margin-bottom: var(--mezera-s);
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   12. SEZNAM
+   ============================================================ */
+ul.vycet, ol.vycet {
+  margin: var(--mezera-m) 0 var(--mezera-m) var(--mezera-xl);
+  color: var(--barva-text);
+}
+
+ul.vycet li, ol.vycet li {
+  margin-bottom: var(--mezera-xs);
+  padding-left: var(--mezera-xs);
+}
+
+ul.vycet li::marker {
+  color: var(--barva-hlavni);
+}
+
+/* ============================================================
+   13. TABULKA
+   ============================================================ */
+.tabulka-obal {
+  overflow-x: auto;
+  border-radius: var(--border-radius-velky);
+  box-shadow: var(--stin);
+  margin: var(--mezera-l) 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--barva-karty);
+  font-size: 0.95rem;
+}
+
+caption {
+  caption-side: top;
+  padding: var(--mezera-m) var(--mezera-l);
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: left;
+  background-color: var(--barva-hlavni-tmavsi);
+  color: #ffffff;
+  border-radius: var(--border-radius-velky) var(--border-radius-velky) 0 0;
+}
+
+thead th {
+  background-color: var(--barva-thead);
+  color: #ffffff;
+  padding: var(--mezera-m) var(--mezera-l);
+  text-align: left;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tbody tr {
+  transition: var(--prechod);
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--barva-zebra);
+}
+
+tbody tr:hover {
+  background-color: rgba(43, 93, 58, 0.1);
+}
+
+tbody td {
+  padding: var(--mezera-m) var(--mezera-l);
+  border-bottom: 1px solid var(--barva-border);
+  color: var(--barva-text);
+}
+
+tbody td:first-of-type {
+  font-weight: bold;
+  color: var(--barva-hlavni);
+}
+
+tfoot td {
+  padding: var(--mezera-m) var(--mezera-l);
+  font-weight: bold;
+  background-color: var(--barva-hlavni);
+  color: #ffffff;
+  border-top: 2px solid var(--barva-akcent);
+}
+
+/* ============================================================
+   14. FORMULÁŘ
+   ============================================================ */
+.formular-obal {
+  display: flex;
+  gap: var(--mezera-xl);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+form {
+  flex: 1;
+  min-width: 300px;
+}
+
+fieldset {
+  border: 2px solid var(--barva-border);
+  border-radius: var(--border-radius-velky);
+  padding: var(--mezera-xl);
+  background-color: var(--barva-karty);
+  box-shadow: var(--stin);
+}
+
+legend {
+  padding: 0 var(--mezera-m);
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--barva-hlavni);
+  font-family: var(--font-nadpis);
+}
+
+.pole {
+  margin-bottom: var(--mezera-l);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--mezera-xs);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--barva-text);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: var(--mezera-s) var(--mezera-m);
+  border: 2px solid var(--barva-border);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-family: var(--font-hlavni);
+  background-color: var(--barva-pozadi);
+  color: var(--barva-text);
+  transition: var(--prechod);
+  min-height: 44px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--barva-hlavni);
+  box-shadow: 0 0 0 3px rgba(43, 93, 58, 0.2);
+}
+
+input[type="email"]:invalid {
+  border-color: #c0392b;
+}
+
+input[type="email"]:valid {
+  border-color: var(--barva-hlavni);
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.radio-skupina,
+.checkbox-skupina {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mezera-s);
+}
+
+.radio-volba,
+.checkbox-volba {
+  display: flex;
+  align-items: center;
+  gap: var(--mezera-s);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.radio-volba input[type="radio"],
+.checkbox-volba input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-height: unset;
+  accent-color: var(--barva-hlavni);
+  cursor: pointer;
+}
+
+.radio-volba label,
+.checkbox-volba label {
+  margin-bottom: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: var(--barva-hlavni);
+  color: #ffffff;
+  border: none;
+  padding: var(--mezera-m) var(--mezera-xl);
+  font-size: 1rem;
+  font-family: var(--font-hlavni);
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--prechod);
+  min-height: 44px;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--barva-hlavni-tmavsi);
+  transform: translateY(-2px);
+  box-shadow: var(--stin-hover);
+}
+
+button[type="submit"]:focus {
+  outline: 3px solid var(--barva-akcent);
+  outline-offset: 2px;
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.form-status {
+  min-height: 1.4em;
+  padding: var(--mezera-s) var(--mezera-m);
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  margin-bottom: var(--mezera-m);
+}
+
+.form-status:empty {
+  display: none;
+}
+
+.form-status--posilam {
+  background-color: rgba(43, 93, 58, 0.1);
+  color: var(--barva-hlavni);
+  border: 1px solid var(--barva-hlavni);
+}
+
+.form-status--uspech {
+  background-color: rgba(43, 93, 58, 0.15);
+  color: var(--barva-hlavni);
+  border: 1px solid var(--barva-hlavni);
+  font-weight: bold;
+}
+
+.form-status--chyba {
+  background-color: rgba(192, 57, 43, 0.1);
+  color: #c0392b;
+  border: 1px solid #c0392b;
+}
+
+/* ============================================================
+   15. FOOTER
+   ============================================================ */
+footer {
+  background-color: var(--barva-hlavni);
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  padding: var(--mezera-l) var(--mezera-m);
+  margin-top: var(--mezera-xxl);
+  font-size: 0.9rem;
+}
+
+footer p {
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   16. SEKCE — obecné styly
+   ============================================================ */
+.sekce-nadpis {
+  border-bottom: 3px solid var(--barva-akcent);
+  padding-bottom: var(--mezera-s);
+  margin-bottom: var(--mezera-l);
+}
+
+article.zbran-typ {
+  background-color: var(--barva-karty);
+  border-radius: var(--border-radius-velky);
+  padding: var(--mezera-l);
+  margin-bottom: var(--mezera-l);
+  box-shadow: var(--stin);
+  border-left: 4px solid var(--barva-hlavni);
+  transition: var(--prechod);
+}
+
+article.zbran-typ:hover {
+  box-shadow: var(--stin-hover);
+  border-left-color: var(--barva-akcent);
+}
+
+/* ============================================================
+   17. RESPONZIVITA — max-width: 768px
+   ============================================================ */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--mezera-m);
+    position: static;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--mezera-xs);
+  }
+
+  nav ul li a {
+    min-height: 48px;
+    font-size: 1rem;
+    padding: var(--mezera-s) var(--mezera-m);
+  }
+
+  .mrizka-karet {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h2 {
+    font-size: 1.6rem;
+  }
+
+  main {
+    padding: var(--mezera-l) var(--mezera-m);
+  }
+
+  .formular-obal {
+    flex-direction: column;
+  }
+
+  .obsah-stranky ul {
+    flex-direction: column;
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.35rem; }
+
+  button[type="submit"] {
+    min-height: 52px;
+    font-size: 1.05rem;
+  }
+}
+
+/* ============================================================
+   18. PRINT CSS
+   ============================================================ */
+@media print {
+  header,
+  nav,
+  .obsah-stranky,
+  button,
+  .tlacitko,
+  .karta-stitek {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+    color: #000000;
+    font-size: 11pt;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555555;
+  }
+
+  nav a::after {
+    content: none;
+  }
+
+  article.karta,
+  article.zbran-typ,
+  fieldset {
+    box-shadow: none;
+    border: 1px solid #cccccc;
+    break-inside: avoid;
+  }
+
+  table {
+    border: 1px solid #cccccc;
+  }
+
+  thead th {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  h1, h2, h3 {
+    color: #000000;
+    break-after: avoid;
+  }
+
+  footer {
+    background: none;
+    color: #000000;
+    border-top: 1px solid #cccccc;
+  }
+
+  footer p {
+    color: #000000;
+  }
+}
+
+/* ============================================================
+   19. POKROČILÉ SELEKTORY
+   ============================================================ */
+tbody tr:nth-child(even) {
+  background-color: var(--barva-zebra);
+}
+
+article.zbran-typ:first-of-type {
+  border-left-color: var(--barva-akcent);
+}
+
+input[type="email"]:invalid:not(:placeholder-shown) {
+  border-color: #c0392b;
+  background-color: rgba(192, 57, 43, 0.05);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(43, 93, 58, 0.2);
+}

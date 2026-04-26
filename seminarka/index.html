@@ -1,45 +1,102 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="assets/javascript.js" defer></script>
-    <!-- assets/img assets/style.css assets/javascript.js -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Informační web o airsoftu a vzduchových zbraních – vybavení, typy zbraní, legislativa a katalog.">
+  <title>Airsoft & Vzduchovky – Úvod</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header class="navbar">
-        <h1>Airsoft & Vzduchovky</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Úvod</a></li>
-                <li><a href="airsoft.html">Airsoft</a></li>
-                <li><a href="vzduchovky.html">Vzduchovky</a></li>
-                <li><a href="katalog.html">Katalog</a></li>
-                <li><a href="kontakt.html">Kontakt</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="uvod">
-        <h2>Vítejte</h2>
-            <p>Text o airsoftu &amp; vzduchovkách...</p>
+
+  <header>
+    <h1>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect x="2" y="12" width="22" height="8" rx="2" fill="#d4a017"/>
+        <rect x="20" y="13" width="10" height="2" rx="1" fill="#ffffff"/>
+        <rect x="8" y="20" width="4" height="4" rx="1" fill="#d4a017"/>
+        <circle cx="10" cy="26" r="2" fill="#888888"/>
+        <circle cx="18" cy="26" r="2" fill="#888888"/>
+      </svg>
+      Airsoft &amp; Vzduchovky
+    </h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Úvod</a></li>
+        <li><a href="airsoft.html">Airsoft</a></li>
+        <li><a href="vzduchovky.html">Vzduchovky</a></li>
+        <li><a href="katalog.html">Katalog</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <h2>Vítejte ve světě airsoftu a vzduchových zbraní</h2>
+      <p>Komplexní průvodce pro začátečníky i zkušené střelce. Vše o vybavení, legislativě, bezpečnosti a výběru té správné zbraně.</p>
+      <a href="airsoft.html" class="tlacitko">Zjistit více o airsoftu</a>
     </section>
-    <section id="kategorie">
-                    <h2>Kategorie</h2>
-            <article class="karta">
-                <h3>AEG zbraně</h3>
-                <p>Elektricky poháněné...</p>
-            </article>
-            <article class="karta">
-                <h3>GBB pistole</h3>
-                <p>Plynové se zpětným rázem...</p>
-            </article>
+
+    <section>
+      <h2 class="sekce-nadpis">Kategorie zbraní</h2>
+      <p>Prozkoumejte tři hlavní kategorie, které pokrývají nejpopulárnější typy airsoftových zbraní.</p>
+      <section class="mrizka-karet">
+        <article class="karta">
+          <!-- Nahraď src vlastním obrázkem ve složce img/ -->
+          <figure>
+            <img src="img/aeg-zbran.jpg" alt="Elektrická airsoftová puška typu AEG v černé barvě">
+            <figcaption>Elektrická airsoftová puška AEG</figcaption>
+          </figure>
+          <section class="karta-obsah">
+            <span class="karta-stitek">Nejoblíbenější</span>
+            <h3>AEG zbraně</h3>
+            <p>Elektricky poháněné pušky s dobíjecím akumulátorem. Ideální pro terénní hry díky vysoké spolehlivosti a jednoduché obsluze.</p>
+            <a href="airsoft.html#aeg">Více o AEG →</a>
+          </section>
+        </article>
+
+        <article class="karta">
+          <!-- Nahraď src vlastním obrázkem ve složce img/ -->
+          <figure>
+            <img src="img/gbb-pistole.jpg" alt="Plynová airsoftová pistole GBB se zpětným rázem">
+            <figcaption>Plynová pistole GBB</figcaption>
+          </figure>
+          <section class="karta-obsah">
+            <h3>GBB pistole</h3>
+            <p>Plynové zbraně se zpětným rázem (Gas Blowback). Poskytují realistický pocit ze střelby a jsou oblíbené jako záložní zbraň.</p>
+            <a href="airsoft.html#gbb">Více o GBB →</a>
+          </section>
+        </article>
+
+        <article class="karta">
+          <!-- Nahraď src vlastním obrázkem ve složce img/ -->
+          <figure>
+            <img src="img/sniper-puska.jpg" alt="Airsoftová sniper puška s teleskopickým zaměřovačem">
+            <figcaption>Sniper puška s dalekohledem</figcaption>
+          </figure>
+          <section class="karta-obsah">
+            <h3>Sniper pušky</h3>
+            <p>Přesné pušky pro dlouhé vzdálenosti. Většinou na jarní pohon, vybavené optickým zaměřovačem. Vyžadují trpělivost a taktické myšlení.</p>
+            <a href="airsoft.html#sniper">Více o sniper →</a>
+          </section>
+        </article>
+      </section>
     </section>
-    </main>
-        <footer>
-        <p>&copy; 2026 Tobias &mdash; Seminární práce</p>
-    </footer>
+
+    <section>
+      <h2 class="sekce-nadpis">Proč airsoft?</h2>
+      <p>Airsoft je víc než jen střílení – je to taktický sport, který rozvíjí spolupráci v týmu, fyzickou kondici a schopnost rychlého rozhodování. Každá hra je jiná a vyžaduje kombinaci strategie, komunikace a správného vybavení.</p>
+      <p>Na tomto webu najdete vše potřebné: od základního přehledu typů zbraní přes technické specifikace až po aktuální právní předpisy. Ať jste začátečník, nebo ostřílený veterán, správné informace jsou základem bezpečné a zábavné hry.</p>
+      <a href="katalog.html" class="tlacitko">Prohlédnout katalog zbraní</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Tobias Krč &mdash; Seminární práce</p>
+  </footer>
+
 </body>
 </html>

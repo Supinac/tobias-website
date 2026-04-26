@@ -1,0 +1,14 @@
+{
+  "name": "seminarka-airsoft",
+  "version": "1.0.0",
+  "description": "Seminární práce – Airsoft & Vzduchovky",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^1.13.5",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}

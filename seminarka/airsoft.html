@@ -1,12 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="assets/javascript.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vše o airsoftu – historie, typy zbraní (AEG, GBB, springer, sniper) a pravidla bezpečnosti.">
+  <title>O airsoftu – Airsoft &amp; Vzduchovky</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <header>
+    <h1>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect x="2" y="12" width="22" height="8" rx="2" fill="#d4a017"/>
+        <rect x="20" y="13" width="10" height="2" rx="1" fill="#ffffff"/>
+        <rect x="8" y="20" width="4" height="4" rx="1" fill="#d4a017"/>
+        <circle cx="10" cy="26" r="2" fill="#888888"/>
+        <circle cx="18" cy="26" r="2" fill="#888888"/>
+      </svg>
+      Airsoft &amp; Vzduchovky
+    </h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Úvod</a></li>
+        <li><a href="airsoft.html">Airsoft</a></li>
+        <li><a href="vzduchovky.html">Vzduchovky</a></li>
+        <li><a href="katalog.html">Katalog</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <h2>O airsoftu</h2>
+
+    <nav class="obsah-stranky" aria-label="Obsah stránky">
+      <h2>Obsah stránky</h2>
+      <ul>
+        <li><a href="#historie">Historie airsoftu</a></li>
+        <li><a href="#typy-zbrani">Typy zbraní</a></li>
+        <li><a href="#vybaveni">Základní vybavení</a></li>
+        <li><a href="#bezpecnost">Pravidla a bezpečnost</a></li>
+      </ul>
+    </nav>
+
+    <section id="historie">
+      <h2 class="sekce-nadpis">Historie airsoftu</h2>
+      <p>Airsoft vznikl v Japonsku v 70. letech 20. století. Japonské zákony tehdy zakazovaly civilní vlastnictví střelných zbraní, a tak zbrojní výrobci začali vyrábět repliky na plastové kuličky – BB (Ball Bearing). Tyto zbraně sloužily původně jako sběratelské předměty a pro tréninkové účely.</p>
+      <p>V 80. a 90. letech se airsoft rozšířil do Evropy a Severní Ameriky, kde se vyvinul do podoby organizovaného sportu. Dnes se hraje ve více než 50 zemích světa a má miliony hráčů.</p>
+
+      <figure>
+        <!-- Nahraď src vlastním obrázkem ve složce img/ -->
+        <img src="img/historie-airsoft.jpg" alt="Dobová japonská airsoftová replika pistole z 70. let">
+        <figcaption>Jedna z prvních airsoftových replik – japonská výroba ze 70. let 20. století</figcaption>
+      </figure>
+    </section>
+
+    <section id="typy-zbrani">
+      <h2 class="sekce-nadpis">Typy airsoftových zbraní</h2>
+      <p>Airsoftové zbraně se dělí podle pohonného systému do čtyř hlavních kategorií. Každá má své výhody a hodí se pro jiný styl hry.</p>
+
+      <article class="zbran-typ" id="aeg">
+        <h3>AEG – Automatická elektrická puška</h3>
+        <p>AEG (Automatic Electric Gun) je nejrozšířenějším typem airsoftové zbraně. Pohání ji elektrický motor napájený akumulátorem, který pohybuje pístem a vytváří tlak vzduchu pro vystřelení kuličky. AEG zbraně jsou spolehlivé, snadno upgradovatelné a zvládají plně automatický, poloautomatický i dávkový režim střelby.</p>
+        <p>Typický výkon: 80–120 m/s (cca 300–400 FPS). Zásobník: 50–500 kuliček. Oblíbené modely: Tokyo Marui M4, ASG Scorpion Evo 3.</p>
+      </article>
+
+      <article class="zbran-typ" id="gbb">
+        <h3>GBB – Plynová zbraň se zpětným rázem</h3>
+        <p>GBB (Gas Blowback) zbraně využívají stlačený plyn (nejčastěji Green Gas nebo CO2) k vystřelení kuličky a zároveň k pohybu závěru zpět – tzv. blowback efekt. Tento realistický pocit ze střelby je hlavní předností GBB pistolí a pušek.</p>
+        <p>Nevýhodou je závislost výkonu na teplotě (plyn v chladu ztrácí tlak) a vyšší provozní náklady. Výkon: 70–110 m/s. Oblíbené modely: WE Glock 17, Tokyo Marui Hi-Capa.</p>
+      </article>
+
+      <article class="zbran-typ">
+        <h3>Springer – Jarní zbraně</h3>
+        <p>Nejjednodušší a nejlevnější typ. Každý výstřel vyžaduje ruční natažení závěru, který stlačí pružinu. Springer zbraně jsou vhodné pro začátečníky, sběratele a jako záložní zbraně. Nelze střílet automaticky.</p>
+        <p>Výkon: 50–80 m/s. Cena: od 200 Kč. Oblíbené modely: Cyma AK47, Tokyo Marui pistole.</p>
+      </article>
+
+      <article class="zbran-typ" id="sniper">
+        <h3>Sniper pušky – Přesné střelby</h3>
+        <p>Airsoftové sniper pušky jsou specializované zbraně optimalizované pro přesnost na vzdálenosti 50–80 metrů. Většina je na jarní pohon (bolt-action), ale existují i AEG varianty. Sniper roli vyžaduje dobrou ghillie suit (maskovací oblek) a trpělivost.</p>
+        <p>Výkon: 120–150 m/s (400–500 FPS). Musí být upgradovaný zásobník hop-up pro stabilní let kuličky. Oblíbené modely: Well MB4404, ASG Steyr Scout.</p>
+      </article>
+    </section>
+
+    <section id="vybaveni">
+      <h2 class="sekce-nadpis">Základní vybavení hráče</h2>
+      <p>Pro bezpečnou a příjemnou hru je nezbytné mít správné vybavení. Níže je přehled toho nejdůležitějšího:</p>
+      <ul class="vycet">
+        <li>Ochranné brýle nebo maska (certifikát ANSI Z87.1 nebo EN 166)</li>
+        <li>Airsoftová zbraň odpovídající pravidlům hřiště (max. FPS)</li>
+        <li>Dostatek munice – standardní 6mm BB kuličky 0,20–0,28 g</li>
+        <li>Taktická vesta nebo MOLLE systém pro nosení zásobníků</li>
+        <li>Pohodlné terénní oblečení (BDU, multicam)</li>
+        <li>Radiostanice pro komunikaci v týmu</li>
+        <li>Lékárnička pro první pomoc</li>
+        <li>Dostatečná hydratace a svačina pro celodenní hry</li>
+      </ul>
+    </section>
+
+    <section id="bezpecnost">
+      <h2 class="sekce-nadpis">Pravidla a bezpečnost</h2>
+      <p>Bezpečnost je v airsoftu na prvním místě. Porušení bezpečnostních pravidel vede k okamžitému vyloučení ze hry. Zde jsou základní zásady, které musí dodržovat každý hráč:</p>
+      <ul class="vycet">
+        <li><strong>Nikdy nemiřit na obličej</strong> bez ochranné masky – kuličky mohou způsobit vážné zranění oka</li>
+        <li><strong>Pravidlo „Hit"</strong> – po zásahu okamžitě zdvihnout ruku a hlasitě zvolat „HIT"</li>
+        <li><strong>Bezpečná zóna</strong> – v zázemí vždy sejít zásobník a nasadit pojistku</li>
+        <li><strong>Limit FPS</strong> – dodržovat maximální výkon povolený na daném hřišti (obvykle 350 FPS pro CQB, 450 FPS pro terén)</li>
+        <li><strong>Minimální vzdálenost střelby</strong> – zpravidla 10 metrů pro výkonné zbraně</li>
+        <li><strong>Přátelská palba</strong> – vždy identifikuj cíl před střelbou</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Tobias Krč &mdash; Seminární práce</p>
+  </footer>
+
 </body>
 </html>

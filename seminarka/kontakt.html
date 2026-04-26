@@ -1,12 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="assets/javascript.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kontaktujte nás – dotazy k airsoftu, vzduchových zbraním nebo srovnání. Vyplňte formulář nebo nás navštivte osobně.">
+  <title>Kontakt – Airsoft &amp; Vzduchovky</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/form.js" defer></script>
 </head>
 <body>
+
+  <header>
+    <h1>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect x="2" y="12" width="22" height="8" rx="2" fill="#d4a017"/>
+        <rect x="20" y="13" width="10" height="2" rx="1" fill="#ffffff"/>
+        <rect x="8" y="20" width="4" height="4" rx="1" fill="#d4a017"/>
+        <circle cx="10" cy="26" r="2" fill="#888888"/>
+        <circle cx="18" cy="26" r="2" fill="#888888"/>
+      </svg>
+      Airsoft &amp; Vzduchovky
+    </h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Úvod</a></li>
+        <li><a href="airsoft.html">Airsoft</a></li>
+        <li><a href="vzduchovky.html">Vzduchovky</a></li>
+        <li><a href="katalog.html">Katalog</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <section>
+      <h2 class="sekce-nadpis">Kontakt</h2>
+      <p>Máte dotaz k airsoftu, vzduchových zbraním nebo obsahu tohoto webu? Napište nám pomocí formuláře níže nebo nás navštivte osobně.</p>
+
+      <section class="formular-obal">
+        <form action="#" method="post" id="kontakt-formular">
+          <fieldset>
+            <legend>Kontaktní formulář</legend>
+
+            <p class="pole">
+              <label for="jmeno">Celé jméno</label>
+              <input type="text" id="jmeno" name="jmeno" placeholder="Např. Jan Novák" required autocomplete="name">
+            </p>
+
+            <p class="pole">
+              <label for="email">E-mailová adresa</label>
+              <input type="email" id="email" name="email" placeholder="vas@email.cz" required autocomplete="email">
+            </p>
+
+            <p class="pole">
+              <label for="vek">Věk (min. 18 let)</label>
+              <input type="number" id="vek" name="vek" min="18" max="120" placeholder="Váš věk">
+            </p>
+
+            <p class="pole">
+              <label for="kategorie">Kategorie dotazu</label>
+              <select id="kategorie" name="kategorie" required>
+                <option value="">-- Vyberte kategorii --</option>
+                <option value="airsoft">Airsoft zbraně</option>
+                <option value="vzduchovky">Vzduchové zbraně</option>
+                <option value="legislativa">Legislativa a předpisy</option>
+                <option value="katalog">Katalog a ceny</option>
+                <option value="jine">Jiné</option>
+              </select>
+            </p>
+
+            <fieldset class="pole">
+              <legend>Preferovaný způsob kontaktu</legend>
+              <span class="radio-volba">
+                <input type="radio" id="kontakt-email" name="preferovany-kontakt" value="email" checked>
+                <label for="kontakt-email">E-mail</label>
+              </span>
+              <span class="radio-volba">
+                <input type="radio" id="kontakt-telefon" name="preferovany-kontakt" value="telefon">
+                <label for="kontakt-telefon">Telefon</label>
+              </span>
+              <span class="radio-volba">
+                <input type="radio" id="kontakt-osobne" name="preferovany-kontakt" value="osobne">
+                <label for="kontakt-osobne">Osobně</label>
+              </span>
+            </fieldset>
+
+            <p class="pole">
+              <label for="zprava">Vaše zpráva</label>
+              <textarea id="zprava" name="zprava" placeholder="Napište svůj dotaz nebo zprávu..." required></textarea>
+            </p>
+
+            <fieldset class="pole">
+              <legend>Souhlasy</legend>
+              <span class="checkbox-volba">
+                <input type="checkbox" id="gdpr" name="gdpr" required>
+                <label for="gdpr">Souhlasím se zpracováním osobních údajů v souladu s GDPR</label>
+              </span>
+              <span class="checkbox-volba">
+                <input type="checkbox" id="newsletter" name="newsletter">
+                <label for="newsletter">Mám zájem o zasílání novinek a akcí (nepovinné)</label>
+              </span>
+            </fieldset>
+
+            <p id="form-status" class="form-status" aria-live="polite"></p>
+            <button type="submit" id="submit-btn">Odeslat zprávu</button>
+
+          </fieldset>
+        </form>
+
+        <aside class="kontakty">
+          <h3>Kontaktní údaje</h3>
+          <p><strong>Airsoft &amp; Vzduchovky</strong></p>
+          <p>Střelecká 42<br>150 00 Praha 5</p>
+          <p><strong>Telefon:</strong><br>+420 777 123 456</p>
+          <p><strong>E-mail:</strong><br>info@airsoft-vzduchovky.cz</p>
+          <p><strong>Otevírací doba:</strong><br>
+            Po–Pá: 9:00–17:00<br>
+            So: 10:00–14:00<br>
+            Ne: Zavřeno
+          </p>
+          <p><strong>IČO:</strong> 12345678<br>
+          <strong>DIČ:</strong> CZ12345678</p>
+        </aside>
+
+      </section>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Tobias Krč &mdash; Seminární práce</p>
+  </footer>
+
 </body>
 </html>
