@@ -1,0 +1,14 @@
+# Environment
+.env
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Markdown files (instructions, notes, claude context)
+*.md
+
+# Visit counter data
+backend/visit-count.txt
