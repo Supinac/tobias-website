@@ -1,3 +1,32 @@
+async function updateVisitCounter() {
+    try {
+        const counterElement = document.getElementById('visit-counter');
+        if (counterElement) {
+            counterElement.textContent = 'Loading';
+            counterElement.classList.add('loading');
+        }
+
+        const response = await fetch('/api/visit');
+        const data = await response.json();
+
+        if (counterElement) {
+            counterElement.classList.remove('loading');
+            counterElement.style.transition = 'transform 0.3s ease-in-out';
+            counterElement.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                counterElement.textContent = `Total visits: ${data.visits}`;
+                counterElement.style.transform = 'scale(1)';
+            }, 150);
+        }
+    } catch (error) {
+        console.error('Failed to fetch visit count:', error);
+    }
+}
+
+if (document.getElementById('visit-counter')) {
+    updateVisitCounter();
+}
+
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {

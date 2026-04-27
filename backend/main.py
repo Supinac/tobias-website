@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import time
 
 import httpx
 from dotenv import load_dotenv
@@ -21,6 +22,36 @@ app.add_middleware(
 )
 
 
+COUNTER_FILE = os.path.join(os.path.dirname(__file__), "visit-count.txt")
+VISITOR_COOLDOWN = 3600  # seconds
+recent_visitors: dict[str, float] = {}
+
+
+def is_new_visitor(ip: str) -> bool:
+    now = time.time()
+    last = recent_visitors.get(ip)
+    if last is None or (now - last) > VISITOR_COOLDOWN:
+        recent_visitors[ip] = now
+        return True
+    return False
+
+
+def get_count() -> int:
+    try:
+        with open(COUNTER_FILE) as f:
+            return int(f.read().strip())
+    except Exception:
+        return 0
+
+
+def save_count(count: int) -> None:
+    try:
+        with open(COUNTER_FILE, "w") as f:
+            f.write(str(count))
+    except Exception:
+        pass
+
+
 class ContactForm(BaseModel):
     name: str
     contact: str
@@ -39,6 +70,20 @@ def parse_user_agent(ua: str) -> str:
     if "iPhone" in ua or "iPad" in ua:
         return "iOS"
     return "Unknown OS"
+
+
+@app.get("/api/visit")
+async def visit(request: Request):
+    ip = (
+        request.headers.get("x-forwarded-for")
+        or request.headers.get("x-real-ip")
+        or (request.client.host if request.client else "Unknown")
+    )
+    count = get_count()
+    if is_new_visitor(ip):
+        count += 1
+        save_count(count)
+    return {"visits": count}
 
 
 @app.post("/api/contact")
