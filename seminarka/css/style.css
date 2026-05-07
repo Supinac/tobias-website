@@ -1,6 +1,3 @@
-/* ============================================================
-   1. CSS PROMĚNNÉ
-   ============================================================ */
 :root {
   --barva-hlavni: #2b5d3a;
   --barva-hlavni-tmavsi: #1e4229;
@@ -29,9 +26,6 @@
   --max-sirka: 1100px;
 }
 
-/* ============================================================
-   2. DARK MODE
-   ============================================================ */
 @media (prefers-color-scheme: dark) {
   :root {
     --barva-hlavni: #3d7a50;
@@ -50,9 +44,6 @@
   }
 }
 
-/* ============================================================
-   3. RESET
-   ============================================================ */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -67,9 +58,6 @@ body {
   min-height: 100vh;
 }
 
-/* ============================================================
-   4. TYPOGRAFIE
-   ============================================================ */
 h1, h2, h3, h4 {
   font-family: var(--font-nadpis);
   line-height: 1.3;
@@ -120,9 +108,6 @@ blockquote cite {
   color: var(--barva-hlavni);
 }
 
-/* ============================================================
-   5. LAYOUT
-   ============================================================ */
 main {
   max-width: var(--max-sirka);
   margin: 0 auto;
@@ -133,9 +118,6 @@ section {
   margin-bottom: var(--mezera-xxl);
 }
 
-/* ============================================================
-   6. HEADER & NAVIGACE
-   ============================================================ */
 header {
   background-color: var(--barva-hlavni);
   color: #ffffff;
@@ -198,9 +180,6 @@ nav ul li:first-of-type a {
   font-weight: bold;
 }
 
-/* ============================================================
-   7. KARTY
-   ============================================================ */
 .mrizka-karet {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -266,9 +245,6 @@ article.karta:hover {
   letter-spacing: 0.05em;
 }
 
-/* ============================================================
-   8. HERO SEKCE
-   ============================================================ */
 .hero {
   background-color: var(--barva-hlavni);
   color: #ffffff;
@@ -310,9 +286,6 @@ article.karta:hover {
   box-shadow: var(--stin-hover);
 }
 
-/* ============================================================
-   9. OBSAH STRÁNKY (kotvy)
-   ============================================================ */
 .obsah-stranky {
   background-color: var(--barva-karty);
   border-radius: var(--border-radius-velky);
@@ -352,9 +325,6 @@ article.karta:hover {
   border-color: var(--barva-hlavni);
 }
 
-/* ============================================================
-   10. OBRÁZKY A FIGURE
-   ============================================================ */
 figure {
   margin: var(--mezera-l) 0;
   border-radius: var(--border-radius-velky);
@@ -377,9 +347,6 @@ figcaption {
   text-align: center;
 }
 
-/* ============================================================
-   11. ASIDE
-   ============================================================ */
 aside.upozorneni {
   background-color: #fff3cd;
   border: 1px solid #ffc107;
@@ -428,9 +395,6 @@ aside.kontakty p {
   font-size: 0.9rem;
 }
 
-/* ============================================================
-   12. SEZNAM
-   ============================================================ */
 ul.vycet, ol.vycet {
   margin: var(--mezera-m) 0 var(--mezera-m) var(--mezera-xl);
   color: var(--barva-text);
@@ -445,9 +409,6 @@ ul.vycet li::marker {
   color: var(--barva-hlavni);
 }
 
-/* ============================================================
-   13. TABULKA
-   ============================================================ */
 .tabulka-obal {
   overflow-x: auto;
   border-radius: var(--border-radius-velky);
@@ -514,9 +475,6 @@ tfoot td {
   border-top: 2px solid var(--barva-akcent);
 }
 
-/* ============================================================
-   14. FORMULÁŘ
-   ============================================================ */
 .formular-obal {
   display: flex;
   gap: var(--mezera-xl);
@@ -692,9 +650,6 @@ button[type="submit"]:disabled {
   border: 1px solid #c0392b;
 }
 
-/* ============================================================
-   15. FOOTER
-   ============================================================ */
 footer {
   background-color: var(--barva-hlavni);
   color: rgba(255, 255, 255, 0.85);
@@ -709,9 +664,6 @@ footer p {
   margin-bottom: 0;
 }
 
-/* ============================================================
-   16. SEKCE — obecné styly
-   ============================================================ */
 .sekce-nadpis {
   border-bottom: 3px solid var(--barva-akcent);
   padding-bottom: var(--mezera-s);
@@ -733,9 +685,6 @@ article.zbran-typ:hover {
   border-left-color: var(--barva-akcent);
 }
 
-/* ============================================================
-   17. RESPONZIVITA — max-width: 768px
-   ============================================================ */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -789,9 +738,6 @@ article.zbran-typ:hover {
   }
 }
 
-/* ============================================================
-   18. PRINT CSS
-   ============================================================ */
 @media print {
   header,
   nav,
@@ -858,9 +804,6 @@ article.zbran-typ:hover {
   }
 }
 
-/* ============================================================
-   19. POKROČILÉ SELEKTORY
-   ============================================================ */
 tbody tr:nth-child(even) {
   background-color: var(--barva-zebra);
 }
