@@ -21,8 +21,8 @@
   --mezera-l: 1.5rem;
   --mezera-xl: 2rem;
   --mezera-xxl: 3rem;
-  --border-radius: 6px;
-  --border-radius-velky: 12px;
+  --border-radius: 0.5rem;
+  --border-radius-velky: 0.5rem;
   --stin: 0 2px 8px rgba(0, 0, 0, 0.12);
   --stin-hover: 0 6px 20px rgba(43, 93, 58, 0.25);
   --prechod: all 0.3s ease;
