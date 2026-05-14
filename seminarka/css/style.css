@@ -180,6 +180,18 @@ nav ul li:first-of-type a {
   font-weight: bold;
 }
 
+.nav-toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.nav-toggle-tlacitko {
+  display: none;
+}
+
 .mrizka-karet {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -687,14 +699,46 @@ article.zbran-typ:hover {
 
 @media (max-width: 768px) {
   header {
-    flex-direction: column;
-    align-items: flex-start;
     padding: var(--mezera-m);
     position: static;
   }
 
   header h1 {
     font-size: 1.2rem;
+  }
+
+  .nav-toggle-tlacitko {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--barva-hlavni-tmavsi);
+    color: #ffffff;
+    padding: var(--mezera-s) var(--mezera-m);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    min-height: 44px;
+    user-select: none;
+    transition: var(--prechod);
+  }
+
+  .nav-toggle-tlacitko:hover {
+    background-color: var(--barva-akcent);
+    color: #1a1a1a;
+  }
+
+  .nav-toggle:focus + .nav-toggle-tlacitko {
+    outline: 3px solid var(--barva-akcent);
+    outline-offset: 2px;
+  }
+
+  nav {
+    flex-basis: 100%;
+    display: none;
+  }
+
+  .nav-toggle:checked ~ nav {
+    display: block;
   }
 
   nav ul {
@@ -711,6 +755,106 @@ article.zbran-typ:hover {
 
   .mrizka-karet {
     grid-template-columns: 1fr;
+  }
+
+  .tabulka-obal {
+    overflow: visible;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  caption {
+    display: block;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    padding: var(--mezera-s) var(--mezera-m);
+    word-wrap: break-word;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: block;
+  }
+
+  tbody tr {
+    display: block;
+    background-color: var(--barva-karty);
+    border: 1px solid var(--barva-border);
+    border-radius: var(--border-radius);
+    padding: var(--mezera-m);
+    margin-bottom: var(--mezera-m);
+    box-shadow: var(--stin);
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: var(--barva-karty);
+  }
+
+  tbody tr:hover {
+    background-color: var(--barva-karty);
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--mezera-m);
+    padding: var(--mezera-xs) 0;
+    border-bottom: none;
+    text-align: right;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: var(--barva-text-svetly);
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  tbody td:first-of-type {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: var(--barva-hlavni);
+    text-align: left;
+    border-bottom: 1px solid var(--barva-border);
+    padding-bottom: var(--mezera-s);
+    margin-bottom: var(--mezera-s);
+  }
+
+  tbody td:first-of-type::before {
+    display: none;
+  }
+
+  tfoot {
+    display: block;
+  }
+
+  tfoot tr {
+    display: block;
+    background-color: var(--barva-hlavni);
+    color: #ffffff;
+    border-radius: var(--border-radius);
+    padding: var(--mezera-m);
+    margin-top: var(--mezera-s);
+  }
+
+  tfoot td {
+    display: block;
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    padding: var(--mezera-xs) 0;
   }
 
   .hero h2 {
