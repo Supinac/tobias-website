@@ -21,6 +21,21 @@ function parseUserAgent(userAgent) {
     return 'Unknown OS';
 }
 
+async function lookupIp(ip) {
+    const cleanIp = (ip || '').split(',')[0].trim();
+    try {
+        const r = await axios.get(`http://ip-api.com/json/${cleanIp}`, { timeout: 3000 });
+        if (r.data && r.data.status === 'success') {
+            return {
+                country: r.data.country || 'Unknown',
+                city: r.data.city || 'Unknown',
+                isp: r.data.isp || 'Unknown',
+            };
+        }
+    } catch (e) {}
+    return { country: 'Unknown', city: 'Unknown', isp: 'Unknown' };
+}
+
 app.post('/api/airsoft-contact', async (req, res) => {
     try {
         const { jmeno, email, vek, kategorie, preferovanyKontakt, zprava, newsletter } = req.body;
@@ -30,28 +45,27 @@ app.post('/api/airsoft-contact', async (req, res) => {
                    'Unknown';
         const os = parseUserAgent(req.headers['user-agent'] || 'Unknown');
         const timestamp = new Date().toISOString();
+        const geo = await lookupIp(ip);
 
-        const discordMessage = {
-            embeds: [{
-                title: '📋 Seminárka – nová zpráva z kontaktního formuláře',
-                color: 0x2b5d3a,
-                fields: [
-                    { name: 'Jméno',              value: jmeno || '—',                                                                  inline: false },
-                    { name: 'E-mail',             value: email || '—',                                                                  inline: true  },
-                    { name: 'Věk',                value: vek   || '—',                                                                  inline: true  },
-                    { name: 'Kategorie dotazu',   value: kategorie || '—',                                                              inline: false },
-                    { name: 'Pref. kontakt',      value: preferovanyKontakt || '—',                                                     inline: true  },
-                    { name: 'Newsletter',         value: newsletter ? 'Ano' : 'Ne',                                                     inline: true  },
-                    { name: 'Zpráva',             value: zprava ? (zprava.length > 1024 ? zprava.substring(0, 1021) + '…' : zprava) : '—', inline: false },
-                    { name: 'IP adresa',          value: ip,                                                                            inline: true  },
-                    { name: 'OS',                 value: os,                                                                            inline: true  },
-                    { name: 'Čas',                value: timestamp,                                                                     inline: false },
-                ],
-                footer: { text: 'Airsoft & Vzduchovky – Seminární práce' }
-            }]
-        };
+        const msg = zprava ? (zprava.length > 1024 ? zprava.substring(0, 1021) + '...' : zprava) : '-';
 
-        await axios.post(DISCORD_WEBHOOK_URL, discordMessage);
+        const content =
+            `Seminarka - nova zprava z kontaktniho formulare\n` +
+            `Jmeno: ${jmeno || '-'}\n` +
+            `E-mail: ${email || '-'}\n` +
+            `Vek: ${vek || '-'}\n` +
+            `Kategorie: ${kategorie || '-'}\n` +
+            `Pref. kontakt: ${preferovanyKontakt || '-'}\n` +
+            `Newsletter: ${newsletter ? 'Ano' : 'Ne'}\n` +
+            `Zprava: ${msg}\n` +
+            `IP: ${ip}\n` +
+            `OS: ${os}\n` +
+            `Zeme: ${geo.country}\n` +
+            `Mesto: ${geo.city}\n` +
+            `Poskytovatel: ${geo.isp}\n` +
+            `Cas: ${timestamp}`;
+
+        await axios.post(DISCORD_WEBHOOK_URL, { content });
         res.json({ success: true });
     } catch (error) {
         console.error('Error handling contact form:', error);
