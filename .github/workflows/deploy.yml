@@ -23,3 +23,4 @@ jobs:
           script: |
             cd /var/www/mysite
             git pull origin main
+            sudo systemctl restart tobias-backend.service
