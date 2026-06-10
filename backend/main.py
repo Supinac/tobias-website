@@ -253,6 +253,7 @@ def render_page(slug: str, request: Request):
         raise HTTPException(status_code=404, detail="page not found")
     body_html = md(row["body"])
     return templates.TemplateResponse(
-        "page.html",
-        {"request": request, "page": dict(row), "body_html": body_html},
+        request=request,
+        name="page.html",
+        context={"page": dict(row), "body_html": body_html},
     )
