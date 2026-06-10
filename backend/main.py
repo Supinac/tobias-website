@@ -52,8 +52,58 @@ def _init_db() -> sqlite3.Connection:
         )
         """
     )
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS page_revisions (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            slug       TEXT NOT NULL,
+            title      TEXT NOT NULL,
+            body       TEXT NOT NULL,
+            updated_at INTEGER NOT NULL,
+            action     TEXT NOT NULL
+                       CHECK (action IN ('create', 'update', 'delete', 'restore'))
+        )
+        """
+    )
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS page_revisions_slug_idx "
+        "ON page_revisions (slug, id DESC)"
+    )
+    # one-time backfill: any existing page without revisions gets a synthetic 'create' entry
+    conn.execute(
+        """
+        INSERT INTO page_revisions (slug, title, body, updated_at, action)
+        SELECT slug, title, body, updated_at, 'create' FROM pages
+        WHERE slug NOT IN (SELECT DISTINCT slug FROM page_revisions)
+        """
+    )
     conn.commit()
     return conn
+
+
+MAX_REVISIONS_PER_SLUG = 50
+
+
+def _insert_revision(slug: str, title: str, body: str, updated_at: int, action: str) -> None:
+    db.execute(
+        "INSERT INTO page_revisions (slug, title, body, updated_at, action) "
+        "VALUES (?, ?, ?, ?, ?)",
+        (slug, title, body, updated_at, action),
+    )
+    # prune anything older than the newest MAX_REVISIONS_PER_SLUG rows for this slug
+    db.execute(
+        """
+        DELETE FROM page_revisions
+        WHERE slug = ?
+          AND id <= COALESCE((
+              SELECT id FROM page_revisions
+              WHERE slug = ?
+              ORDER BY id DESC
+              LIMIT 1 OFFSET ?
+          ), 0)
+        """,
+        (slug, slug, MAX_REVISIONS_PER_SLUG),
+    )
 
 
 db = _init_db()
@@ -213,11 +263,12 @@ def get_page_admin(slug: str):
 def create_page(page: PageIn):
     now = int(time.time())
     try:
-        db.execute(
-            "INSERT INTO pages (slug, title, body, updated_at) VALUES (?, ?, ?, ?)",
-            (page.slug, page.title, page.body, now),
-        )
-        db.commit()
+        with db:
+            db.execute(
+                "INSERT INTO pages (slug, title, body, updated_at) VALUES (?, ?, ?, ?)",
+                (page.slug, page.title, page.body, now),
+            )
+            _insert_revision(page.slug, page.title, page.body, now, "create")
     except sqlite3.IntegrityError:
         raise HTTPException(status_code=409, detail="slug already exists")
     return {"slug": page.slug, "title": page.title, "body": page.body, "updated_at": now}
@@ -226,22 +277,80 @@ def create_page(page: PageIn):
 @app.put("/api/content/pages/{slug}", dependencies=[Depends(require_admin)])
 def update_page(slug: str, body: PageBody):
     now = int(time.time())
-    cur = db.execute(
-        "UPDATE pages SET title = ?, body = ?, updated_at = ? WHERE slug = ?",
-        (body.title, body.body, now, slug),
-    )
-    db.commit()
-    if cur.rowcount == 0:
-        raise HTTPException(status_code=404, detail="page not found")
+    with db:
+        cur = db.execute(
+            "UPDATE pages SET title = ?, body = ?, updated_at = ? WHERE slug = ?",
+            (body.title, body.body, now, slug),
+        )
+        if cur.rowcount == 0:
+            raise HTTPException(status_code=404, detail="page not found")
+        _insert_revision(slug, body.title, body.body, now, "update")
     return {"slug": slug, "title": body.title, "body": body.body, "updated_at": now}
 
 
 @app.delete("/api/content/pages/{slug}", dependencies=[Depends(require_admin)], status_code=204)
 def delete_page(slug: str):
-    cur = db.execute("DELETE FROM pages WHERE slug = ?", (slug,))
-    db.commit()
-    if cur.rowcount == 0:
-        raise HTTPException(status_code=404, detail="page not found")
+    now = int(time.time())
+    with db:
+        row = db.execute(
+            "SELECT title, body FROM pages WHERE slug = ?", (slug,)
+        ).fetchone()
+        if row is None:
+            raise HTTPException(status_code=404, detail="page not found")
+        db.execute("DELETE FROM pages WHERE slug = ?", (slug,))
+        _insert_revision(slug, row["title"], row["body"], now, "delete")
+
+
+@app.get("/api/content/pages/{slug}/history", dependencies=[Depends(require_admin)])
+def page_history(slug: str):
+    rows = db.execute(
+        "SELECT id, slug, title, updated_at, action FROM page_revisions "
+        "WHERE slug = ? ORDER BY id DESC",
+        (slug,),
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+@app.get(
+    "/api/content/pages/{slug}/history/{rev_id}",
+    dependencies=[Depends(require_admin)],
+)
+def page_revision(slug: str, rev_id: int):
+    row = db.execute(
+        "SELECT id, slug, title, body, updated_at, action FROM page_revisions "
+        "WHERE slug = ? AND id = ?",
+        (slug, rev_id),
+    ).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="revision not found")
+    return dict(row)
+
+
+@app.post(
+    "/api/content/pages/{slug}/restore/{rev_id}",
+    dependencies=[Depends(require_admin)],
+)
+def restore_revision(slug: str, rev_id: int):
+    now = int(time.time())
+    with db:
+        rev = db.execute(
+            "SELECT title, body FROM page_revisions WHERE slug = ? AND id = ?",
+            (slug, rev_id),
+        ).fetchone()
+        if rev is None:
+            raise HTTPException(status_code=404, detail="revision not found")
+        db.execute(
+            """
+            INSERT INTO pages (slug, title, body, updated_at) VALUES (?, ?, ?, ?)
+            ON CONFLICT(slug) DO UPDATE SET
+                title = excluded.title,
+                body = excluded.body,
+                updated_at = excluded.updated_at
+            """,
+            (slug, rev["title"], rev["body"], now),
+        )
+        _insert_revision(slug, rev["title"], rev["body"], now, "restore")
+    return {"slug": slug, "title": rev["title"], "body": rev["body"], "updated_at": now}
 
 
 @app.get("/page/{slug}", response_class=HTMLResponse)
