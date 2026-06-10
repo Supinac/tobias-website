@@ -1,30 +1,64 @@
 from datetime import datetime, timezone
+from pathlib import Path
+import hmac
+import os
+import sqlite3
 import time
 
 import httpx
+import mistune
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-import os
 
 load_dotenv()
 
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+ADMIN_TOKEN = os.getenv("ADMIN_TOKEN", "")
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 
-COUNTER_FILE = os.path.join(os.path.dirname(__file__), "visit-count.txt")
+BACKEND_DIR = Path(__file__).parent
+COUNTER_FILE = BACKEND_DIR / "visit-count.txt"
+DB_PATH = BACKEND_DIR / "content.db"
+TEMPLATES_DIR = BACKEND_DIR / "templates"
+
 VISITOR_COOLDOWN = 3600  # seconds
 recent_visitors: dict[str, float] = {}
+
+
+def _init_db() -> sqlite3.Connection:
+    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode = WAL")
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS pages (
+            slug       TEXT PRIMARY KEY,
+            title      TEXT NOT NULL,
+            body       TEXT NOT NULL,
+            updated_at INTEGER NOT NULL
+        )
+        """
+    )
+    conn.commit()
+    return conn
+
+
+db = _init_db()
+md = mistune.create_markdown(escape=False)  # raw HTML in body is allowed (single trusted author)
+templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 
 def is_new_visitor(ip: str) -> bool:
@@ -56,6 +90,27 @@ class ContactForm(BaseModel):
     name: str
     contact: str
     message: str
+
+
+class PageIn(BaseModel):
+    slug: str
+    title: str
+    body: str
+
+
+class PageBody(BaseModel):
+    title: str
+    body: str
+
+
+def require_admin(authorization: str = Header(default="")) -> None:
+    scheme, _, token = authorization.partition(" ")
+    if (
+        scheme.lower() != "bearer"
+        or not ADMIN_TOKEN
+        or not hmac.compare_digest(token, ADMIN_TOKEN)
+    ):
+        raise HTTPException(status_code=401, detail="unauthorized")
 
 
 def parse_user_agent(ua: str) -> str:
@@ -136,3 +191,68 @@ async def contact(form: ContactForm, request: Request):
         await client.post(DISCORD_WEBHOOK_URL, json={"content": content})
 
     return {"success": True, "message": "Message sent successfully"}
+
+
+@app.get("/api/content/pages", dependencies=[Depends(require_admin)])
+def list_pages():
+    rows = db.execute("SELECT slug, title, updated_at FROM pages ORDER BY slug").fetchall()
+    return [dict(r) for r in rows]
+
+
+@app.get("/api/content/pages/{slug}", dependencies=[Depends(require_admin)])
+def get_page_admin(slug: str):
+    row = db.execute(
+        "SELECT slug, title, body, updated_at FROM pages WHERE slug = ?", (slug,)
+    ).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="page not found")
+    return dict(row)
+
+
+@app.post("/api/content/pages", dependencies=[Depends(require_admin)], status_code=201)
+def create_page(page: PageIn):
+    now = int(time.time())
+    try:
+        db.execute(
+            "INSERT INTO pages (slug, title, body, updated_at) VALUES (?, ?, ?, ?)",
+            (page.slug, page.title, page.body, now),
+        )
+        db.commit()
+    except sqlite3.IntegrityError:
+        raise HTTPException(status_code=409, detail="slug already exists")
+    return {"slug": page.slug, "title": page.title, "body": page.body, "updated_at": now}
+
+
+@app.put("/api/content/pages/{slug}", dependencies=[Depends(require_admin)])
+def update_page(slug: str, body: PageBody):
+    now = int(time.time())
+    cur = db.execute(
+        "UPDATE pages SET title = ?, body = ?, updated_at = ? WHERE slug = ?",
+        (body.title, body.body, now, slug),
+    )
+    db.commit()
+    if cur.rowcount == 0:
+        raise HTTPException(status_code=404, detail="page not found")
+    return {"slug": slug, "title": body.title, "body": body.body, "updated_at": now}
+
+
+@app.delete("/api/content/pages/{slug}", dependencies=[Depends(require_admin)], status_code=204)
+def delete_page(slug: str):
+    cur = db.execute("DELETE FROM pages WHERE slug = ?", (slug,))
+    db.commit()
+    if cur.rowcount == 0:
+        raise HTTPException(status_code=404, detail="page not found")
+
+
+@app.get("/page/{slug}", response_class=HTMLResponse)
+def render_page(slug: str, request: Request):
+    row = db.execute(
+        "SELECT slug, title, body, updated_at FROM pages WHERE slug = ?", (slug,)
+    ).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="page not found")
+    body_html = md(row["body"])
+    return templates.TemplateResponse(
+        "page.html",
+        {"request": request, "page": dict(row), "body_html": body_html},
+    )

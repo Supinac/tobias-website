@@ -2,3 +2,6 @@ visit-count.txt
 node_modules/
 *.log
 .env
+content.db
+content.db-wal
+content.db-shm
