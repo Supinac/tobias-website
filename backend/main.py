@@ -366,3 +366,16 @@ def render_page(slug: str, request: Request):
         name="page.html",
         context={"page": dict(row), "body_html": body_html},
     )
+
+
+@app.get("/", response_class=HTMLResponse)
+def render_index(request: Request):
+    return render_page("index", request)
+
+
+# Catch-all pretty URL: tobiasweb.xyz/reference -> DB row with slug='reference'.
+# MUST stay last — FastAPI routes match top-down, and this would otherwise eat
+# the specific /api/... routes above.
+@app.get("/{slug}", response_class=HTMLResponse)
+def render_page_pretty(slug: str, request: Request):
+    return render_page(slug, request)
